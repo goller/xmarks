@@ -14,15 +14,13 @@ fn main() {
     let f = File::open(&path).unwrap();
     let mmap = unsafe { Mmap::map(&f).expect("Unable to mmap") };
     for i in 0..100000000 {
-        loop {
-            println!(
-                "{}: Scanned {} windows",
-                i,
-                mmap.windows(1024 * 1024).count()
-            );
-            let second = time::Duration::from_secs(1);
-            thread::sleep(second);
-        }
+        println!(
+            "{}: Scanned {} windows",
+            i,
+            mmap.windows(1024 * 1024).count()
+        );
+        let second = time::Duration::from_secs(1);
+        thread::sleep(second);
     }
 
     drop(mmap);
