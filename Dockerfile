@@ -17,7 +17,6 @@ COPY src ./src
 RUN cargo install --target x86_64-unknown-linux-musl --path .
 
 # Copy the statically-linked binary into a scratch container.
-FROM scratch
+FROM alpine
 COPY --from=build /usr/local/cargo/bin/xmarks .
-USER 1000
 CMD ["./xmarks"]
