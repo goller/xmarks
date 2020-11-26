@@ -13,10 +13,17 @@ fn main() {
 
     let f = File::open(&path).unwrap();
     let mmap = unsafe { Mmap::map(&f).expect("Unable to mmap") };
-    println!("Scanned {} windows", mmap.windows(1024 * 1024).count());
-
-    let hour = time::Duration::from_secs(3600);
-    thread::sleep(hour);
+    for i in 0..100000000 {
+        loop {
+            println!(
+                "{}: Scanned {} windows",
+                i,
+                mmap.windows(1024 * 1024).count()
+            );
+            let second = time::Duration::from_secs(1);
+            thread::sleep(second);
+        }
+    }
 
     drop(mmap);
     remove_file(&path).unwrap();
